@@ -2,7 +2,7 @@ import React from 'react'
 import {AppBar, Toolbar,Button, Typography,InputBase,Box} from '@mui/material'
 import SearchIcon from "@mui/icons-material/Search"
 import AccountCircleIcon from "@mui/icons-material/AccountCircle"
-import logo from '../../../assets/logo3.png'
+import logo from '../../../assets/logo2.png'
 export default function Topbar() {
   return (
     <div>
@@ -16,11 +16,14 @@ export default function Topbar() {
   src={logo}
   alt="Logo"
   sx={{
-    height: "50px",
+    height: "70px",
     cursor: "pointer",
     borderRadius:"50px"
   }}
 />
+<Typography variant='h5' sx={{ flexGrow: 1, ml: 2,letterSpacing:"0.5rem",fontFamily:"poppins",fontWeight:"bold", color: "white" }}>
+ RETRIEVIA
+</Typography>
            <Box sx={{ display: "flex", alignItems: "center" ,gap:2}}>
 
             <Button color='inherit' sx={{

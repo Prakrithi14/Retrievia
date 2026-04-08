@@ -15,3 +15,4 @@ app.get('/apitest',(req,res)=>{
     res.send("Welcome to Lost and Found API")
 })
 app.use('/users',require('./Routes/User_Routes'))
+app.use('/admins',require('./Routes/Admin_Routes'))
