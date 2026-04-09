@@ -21,7 +21,7 @@ export default function Topbar() {
     borderRadius:"50px"
   }}
 />
-<Typography variant='h5' sx={{ flexGrow: 1, ml: 2,letterSpacing:"0.5rem",fontFamily:"poppins",fontWeight:"bold", color: "white" }}>
+<Typography variant='h5' sx={{ flexGrow: 1, ml: 2,fontFamily:"poppins",fontWeight:"bold", color: "white" }}>
  RETRIEVIA
 </Typography>
            <Box sx={{ display: "flex", alignItems: "center" ,gap:2}}>

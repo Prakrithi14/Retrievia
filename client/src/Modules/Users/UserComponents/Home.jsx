@@ -1,85 +1,135 @@
 import React from "react";
 import TopBar from "./TopBar";
-import { Box, Typography } from "@mui/material";
-import { Card, CardMedia, CardContent, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  Button
+} from "@mui/material";
+
+// 👉 import your image
+import heroImg from "../../../assets/hero.png"
 
 export default function Home() {
-  const cardStyle = {
-  width: 220,
-  textAlign: "center",
-  padding: 2,
-  borderRadius: "15px",
-  background: "rgba(255,255,255,0.15)",
-  backdropFilter: "blur(10px)",
-  border: "1px solid rgba(255,255,255,0.3)",
-  color: "white"
-};
+  const actions = [
+    { title: "Report Lost", desc: "Lost something? Report it here" },
+    { title: "Found Item", desc: "Help return lost items" },
+    { title: "Browse Items", desc: "Search lost & found items" },
+    { title: "Sale / Adoption", desc: "Unclaimed items available" }
+  ];
 
-const btnStyle = {
-  mt: 2,
-  background: "linear-gradient(45deg, #ff6ec4, #7873f5)",
-  color: "white"
-};
-  
+  const categories = ["Bags", "Electronics", "Pets", "Documents", "Others"];
+
   return (
     <>
-      
-
+  
       <Box
         sx={{
-          minHeight: "100vh",
-          px: 2, // padding left-right (important for mobile)
-          py: 3, // padding top-bottom
-          background: "linear-gradient(135deg, #4f46e5, #9333ea, #ec4899)"
+          height: "100vh",
+          backgroundImage: `url(${heroImg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "relative",
+          color: "white"
         }}
       >
-        <Typography
-          variant="h4"
-          color="white"
-          mb={3}
-          fontWeight="bold"
-        >
-          Lost & Found Items
-        </Typography>
+        {/* Overlay */}
         <Box
-  sx={{
-    display: "flex",
-    flexWrap: "wrap",
-    gap: 3,
-    justifyContent: "center",
-    mt: 4
-  }}
->
+          sx={{
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            background: "rgba(0,0,0,0.6)"
+          }}
+        />
 
-  <Card sx={cardStyle}>
-    <CardContent>
-      <Typography variant="h6">Report Lost</Typography>
-      <Button sx={btnStyle}>Add Lost Item</Button>
-    </CardContent>
-  </Card>
+        {/* Text */}
+        <Box sx={{ position: "relative", textAlign: "center" }}>
+          <Typography variant="h3" fontWeight="bold">
+            Welcome to Retrievia
+          </Typography>
+          <Typography variant="h6" mt={1}>
+            Reconnect with what you've lost
+          </Typography>
+        </Box>
+      </Box>
 
-  <Card sx={cardStyle}>
-    <CardContent>
-      <Typography variant="h6">Found Something?</Typography>
-      <Button sx={btnStyle}>Add Found Item</Button>
-    </CardContent>
-  </Card>
+      {/* ACTION CARDS */}
+      <Box sx={{ p: 4 }}>
+        <Typography variant="h5" mb={3} fontWeight="bold">
+          Get Started
+        </Typography>
 
-  <Card sx={cardStyle}>
-    <CardContent>
-      <Typography variant="h6">Browse Items</Typography>
-      <Button sx={btnStyle}>View Items</Button>
-    </CardContent>
-  </Card>
+        <Grid container spacing={3}>
+          {actions.map((item, index) => (
+            <Grid item xs={12} sm={6} md={3} key={index}>
+              <Card
+                sx={{
+                  borderRadius: "15px",
+                  p: 2,
+                  transition: "0.3s",
+                  boxShadow: 3,
+                  "&:hover": {
+                    transform: "scale(1.05)"
+                  }
+                }}
+              >
+                <CardContent>
+                  <Typography variant="h6">{item.title}</Typography>
+                  <Typography variant="body2" mb={2}>
+                    {item.desc}
+                  </Typography>
 
-  <Card sx={cardStyle}>
-    <CardContent>
-      <Typography variant="h6">Sale / Adoption</Typography>
-      <Button sx={btnStyle}>Explore</Button>
-    </CardContent>
-  </Card>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    sx={{
+                      background:
+                        "linear-gradient(45deg, #ff6ec4, #7873f5)"
+                    }}
+                  >
+                    Explore
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
 
-</Box>
+      {/* CATEGORIES */}
+      <Box sx={{ p: 4 }}>
+        <Typography variant="h5" mb={3} fontWeight="bold">
+          Categories
+        </Typography>
+
+        <Grid container spacing={3}>
+          {categories.map((cat, index) => (
+            <Grid item xs={6} sm={4} md={2} key={index}>
+              <Box
+                sx={{
+                  p: 3,
+                  textAlign: "center",
+                  borderRadius: "12px",
+                  background: "#f4f6f8",
+                  cursor: "pointer",
+                  transition: "0.3s",
+                  "&:hover": {
+                    transform: "scale(1.05)",
+                    background: "#e0e7ff"
+                  }
+                }}
+              >
+                <Typography fontWeight="bold">{cat}</Typography>
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
       </Box>
     </>
   );

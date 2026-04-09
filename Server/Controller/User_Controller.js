@@ -34,4 +34,50 @@ const userlogin=async(req,res)=>{
         res.status(500).json({message:"Server Error",error})
     }
 }
-module.exports={registeruser,userlogin}
+const getuser=async(req,res)=>{
+    try {
+        const getallusers=await usertable.find()
+        console.log(getallusers)        
+        res.status(200).json({message:"User fetched",allusers:getallusers})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Server error",error})
+    }
+}
+const deleteuser=async(req,res)=>{
+    try {
+        const {id}=req.params
+        const deleteuser=await usertable.findByIdAndDelete(id)
+        res.status(200).json({message:"User deleted",deleteduser:deleteuser})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Server error",error})
+    }
+}
+const updateuser=async(req,res)=>{
+    try {
+        const {id}=req.params
+        const body=req.body
+        const updateduser=await usertable.findByIdAndUpdate(id,body,{new:true})
+        console.log(updateduser)
+        res.status(201).json({message:"User updated",updatedata:updateduser})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Server error",error})
+        
+    }
+}
+// const getprofile=async(req,res)=>{
+//     try {
+//         const {id}=req.params
+//         const body=req.body
+//         const updateduser=await usertable.findById(req.)
+//         console.log(updateduser)
+//         res.status(201).json({message:"User updated",updatedata:updateduser})
+//     } catch (error) {
+//         console.log(error)
+//         res.status(500).json({message:"Server error",error})
+        
+//     }
+// }
+module.exports={registeruser,userlogin,getuser,deleteuser,updateuser}

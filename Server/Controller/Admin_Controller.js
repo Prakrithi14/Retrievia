@@ -1,4 +1,5 @@
 const admintable=require("../Model/Admin_Model")
+const usertable=require("../Model/User_model")
 
 const registeradmin=async(req,res)=>{
     try {
@@ -32,4 +33,21 @@ const loginadmin=async(req,res)=>{
         res.status(500).json({message:"Server Error",error})
     }
 }
-module.exports={registeradmin,loginadmin}
+
+const dashboardata=async(req,res)=>{
+    try {
+        const totalusers=await usertable.countDocuments();
+        res.json({success:true,data:{
+            users:totalusers,
+            items:totalusers,
+            claims:totalusers,
+            sales:totalusers,
+        }
+    })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"Server Error",error})
+    }
+}
+
+module.exports={registeradmin,loginadmin,dashboardata}

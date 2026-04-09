@@ -17,20 +17,21 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import PaymentIcon from "@mui/icons-material/Payment";
 import FeedbackIcon from "@mui/icons-material/Feedback";
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
 const [open, setOpen] = useState(true);
 
 const menuItems = [
-{ text: "Dashboard", icon: <DashboardIcon /> },
-{ text: "Users", icon: <PeopleIcon /> },
-{ text: "Items", icon: <InventoryIcon /> },
-{ text: "Claims", icon: <AssignmentIcon /> },
-{ text: "Payments", icon: <PaymentIcon /> },
-{ text: "Feedback", icon: <FeedbackIcon /> }
-];
+{ text: "Dashboard",link:"/Admin",icon: <DashboardIcon /> ,},
+{ text: "Users",link: "/Admin/ViewUser", icon: <PeopleIcon /> },
+// { text: "Items", icon: <InventoryIcon /> },
+// { text: "Claims", icon: <AssignmentIcon /> },
+// { text: "Payments", icon: <PaymentIcon /> },
+//   { text: "Feedback", icon: <FeedbackIcon /> }
+  ];
 
-return (
+  return (
 <Drawer
 variant="permanent"
 sx={{
@@ -57,31 +58,35 @@ justifyContent: open ? "flex-end" : "center"
 
   {/* Menu List */}
   <List>
+    {}
     {menuItems.map((item, index) => (
-      <ListItem key={index} disablePadding>
-        <ListItemButton
-          sx={{
-            justifyContent: open ? "initial" : "center",
-            px: 2,
-            "&:hover": {
-              background: "rgba(255,255,255,0.2)"
-            }
-          }}
-        >
-          {/* Icon */}
-          <Box sx={{ minWidth: 0 }}>{item.icon}</Box>
+  <ListItem key={item.text} disablePadding>
+    <ListItemButton
+      component={Link}
+      to={item.link}
+      sx={{
+        justifyContent: open ? "initial" : "center",
+        px: 2,
+        color: "white",
+        "&:hover": {
+          background: "rgba(255,255,255,0.2)"
+        }
+      }}
+    >
+      {/* Icon */}
+      <Box sx={{ minWidth: 0 }}>{item.icon}</Box>
 
-          {/* Text */}
-          <ListItemText
-            primary={item.text}
-            sx={{
-              opacity: open ? 1 : 0,
-              ml: open ? 2 : 0
-            }}
-          />
-        </ListItemButton>
-      </ListItem>
-    ))}
+      {/* Text */}
+      <ListItemText
+        primary={item.text}
+        sx={{
+          opacity: open ? 1 : 0,
+          ml: open ? 2 : 0
+        }}
+      />
+    </ListItemButton>
+  </ListItem>
+))}
   </List>
 </Drawer>
 
