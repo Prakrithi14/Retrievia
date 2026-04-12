@@ -53,11 +53,8 @@ p: 4
    >
 Users Management </Typography>
 
-```
-  {/* Search (UI only) */}
-  <Box sx={{ maxWidth: "400px", margin: "0 auto 20px" }}>
-    <TextField fullWidth placeholder="Search users..." />
-  </Box>
+
+
 
   {/* Table */}
   <Box sx={{ display: "flex", justifyContent: "center" }}>

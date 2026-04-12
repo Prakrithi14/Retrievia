@@ -16,3 +16,4 @@ app.get('/apitest',(req,res)=>{
 })
 app.use('/users',require('./Routes/User_Routes'))
 app.use('/admins',require('./Routes/Admin_Routes'))
+app.use("/items", require('./Routes/Item_Routes'));
