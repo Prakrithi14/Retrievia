@@ -5,7 +5,7 @@ const { addItem ,getAllItems,getLostItems,getFoundItems } = require("../Controll
 const upload = require("../Middleware/upload");
 
 router.post("/add", upload.single("image"), addItem);
-router.get("/getAllItems", getAllItems);
-router.get("/getLostItems", getLostItems);
-router.get("/getFoundItems", getFoundItems);
+router.get("/all", getAllItems);
+router.get("/lost", getLostItems);
+router.get("/found", getFoundItems);
 module.exports = router;

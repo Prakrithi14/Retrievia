@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-Box,
-Typography,
-TextField,
-Button,
-Paper,
-MenuItem
-} from "@mui/material";
+import {Box,Typography,TextField,Button,Paper,MenuItem} from "@mui/material";
 import axios from "axios";
 
 export default function PostLostItem() {
@@ -61,7 +54,7 @@ position: "relative",
 overflow: "hidden"
 }}
 >
-{/* 🔥 Glow Effects */}
+
 <Box
 sx={{
 position: "absolute",
@@ -89,7 +82,7 @@ left: "-50px"
     }}
   />
 
-  {/* 🔥 Card */}
+
   <Paper
     elevation={10}
     sx={{
