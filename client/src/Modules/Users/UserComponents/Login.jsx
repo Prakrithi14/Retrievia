@@ -8,9 +8,10 @@ Paper
 } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
-
+const navigate=useNavigate()
 const [login,setLogin]=useState({
   email:'',
   password:'',
@@ -27,7 +28,7 @@ const handleChange=(event)=>{
             if(res.data.success){
             //localStorage.setItem('UserToken',res.data.token)
             alert("Login successful")
-            //navigate('/about')
+            navigate('/Home')
             }
             else{
                 alert("Login Unsuccessful")

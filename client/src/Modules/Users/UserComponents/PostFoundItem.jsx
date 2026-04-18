@@ -8,6 +8,7 @@ Paper,
 MenuItem
 } from "@mui/material";
 import axios from "axios";
+import { useEffect } from "react";
 
 export default function PostFoundItem() {
 
@@ -18,7 +19,7 @@ category: "",
 location: "",
 image: null
 });
-
+const [categories, setCategories] = useState([]);
 const handleChange = (e) => {
 if (e.target.name === "image") {
 setFormData({ ...formData, image: e.target.files[0] });
@@ -49,6 +50,13 @@ try {
 
 };
 
+useEffect(() => {
+  axios.get("http://localhost:8000/categories/getcategory")
+    .then((res) => {
+      setCategories(res.data.allcategory);   
+    })
+    .catch((err) => console.log(err));
+}, []);
 return (
 <Box
 sx={{
@@ -133,18 +141,21 @@ left: "-50px"
     />
 
     <TextField
-      select
-      fullWidth
-      label="Category"
-      name="category"
-      onChange={handleChange}
-      sx={{ mb: 2 }}
-      InputLabelProps={{ style: { color: "#cbd5f5" } }}
-      InputProps={{ style: { color: "white" } }}
-    >
-      <MenuItem value="Bags">Bags</MenuItem>
-      <MenuItem value="Electronics">Electronics</MenuItem>
-      <MenuItem value="Pets">Pets</MenuItem>
+  select
+  fullWidth
+  label="Category"
+  name="category"
+  value={formData.category}  
+  onChange={handleChange}
+  InputLabelProps={{ style: { color: "#cbd5f5" } }}
+      InputProps={{ style: { color: "white" } }}>
+      <MenuItem value="">Select Category</MenuItem>
+
+{categories.map((cat) => (
+  <MenuItem key={cat._id} value={cat._id}>
+    {cat.categoryname}
+  </MenuItem>
+))}
     </TextField>
 
     <TextField

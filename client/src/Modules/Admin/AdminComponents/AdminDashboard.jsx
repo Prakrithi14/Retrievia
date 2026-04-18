@@ -25,7 +25,7 @@ export default function AdminDashboard() {
       });
   }, []);
 
-  // 🔹 Cards using dynamic values
+  
   const cards = [
     { title: "Total Users", value: data.users },
     { title: "Total Items", value: data.items },

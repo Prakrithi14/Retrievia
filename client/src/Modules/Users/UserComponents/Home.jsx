@@ -9,19 +9,20 @@ import {
   Button
 } from "@mui/material";
 
-// 👉 import your image
+
 import heroImg from "../../../assets/hero.png"
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const actions = [
-    { title: "Report Lost", desc: "Lost something? Report it here" },
-    { title: "Found Item", desc: "Help return lost items" },
-    { title: "Browse Items", desc: "Search lost & found items" },
+    { title: "Report Lost", desc: "Lost something? Report it here",link:'/PostLostItem'},
+    { title: "Found Item", desc: "Help return lost items",link:'/PostFoundItem'},
+    { title: "Browse Items", desc: "Search lost & found items",link:'/ViewItems'},
     { title: "Sale / Adoption", desc: "Unclaimed items available" }
   ];
-
+ 
   const categories = ["Bags", "Electronics", "Pets", "Documents", "Others"];
-
+  const navigate=useNavigate()
   return (
     <>
   
@@ -38,7 +39,7 @@ export default function Home() {
           color: "white"
         }}
       >
-        {/* Overlay */}
+        
         <Box
           sx={{
             position: "absolute",
@@ -48,7 +49,7 @@ export default function Home() {
           }}
         />
 
-        {/* Text */}
+    
         <Box sx={{ position: "relative", textAlign: "center" }}>
           <Typography variant="h3" fontWeight="bold">
             Welcome to Retrievia
@@ -59,7 +60,7 @@ export default function Home() {
         </Box>
       </Box>
 
-      {/* ACTION CARDS */}
+      
       <Box sx={{ p: 4 }}>
         <Typography variant="h5" mb={3} fontWeight="bold">
           Get Started
@@ -90,8 +91,9 @@ export default function Home() {
                     variant="contained"
                     sx={{
                       background:
-                        "linear-gradient(45deg, #ff6ec4, #7873f5)"
+                        "linear-gradient(45deg, #ff6ec4, #7873f5)",
                     }}
+                    onClick={()=>navigate(item.link)}
                   >
                     Explore
                   </Button>

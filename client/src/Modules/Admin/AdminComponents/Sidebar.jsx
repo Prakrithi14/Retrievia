@@ -17,6 +17,8 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import PaymentIcon from "@mui/icons-material/Payment";
 import FeedbackIcon from "@mui/icons-material/Feedback";
+import CategoryIcon from '@mui/icons-material/Category';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Link } from "react-router-dom";
 
 export default function Sidebar() {
@@ -25,6 +27,8 @@ const [open, setOpen] = useState(true);
 const menuItems = [
 { text: "Dashboard",link:"/Admin",icon: <DashboardIcon /> ,},
 { text: "Users",link: "/Admin/ViewUser", icon: <PeopleIcon /> },
+{ text: "Add Category",link: "/Admin/AddCategory", icon: <AddCircleOutlineIcon/> },
+{ text: "Users",link: "/Admin/ViewUser", icon: <CategoryIcon /> },
 // { text: "Items", icon: <InventoryIcon /> },
 // { text: "Claims", icon: <AssignmentIcon /> },
 // { text: "Payments", icon: <PaymentIcon /> },

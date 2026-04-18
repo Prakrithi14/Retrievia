@@ -18,7 +18,8 @@ const [items, setItems] = useState([]);
 const [type, setType] = useState("lost");
 
 const [search, setSearch] = useState("");
-const [category, setCategory] = useState("");
+const [selectedcategory, setSelectedcategory] = useState("All");
+const [categories, setCategories] = useState([]);
 
 // 🔹 Fetch items
 useEffect(() => {
@@ -34,17 +35,27 @@ console.log(error);
 }
 };
 
-// 🔥 Filter Logic
-const filteredItems = items.filter((item) => {
-const matchSearch =
-item.title.toLowerCase().includes(search.toLowerCase()) ||
-item.description.toLowerCase().includes(search.toLowerCase());
+// 🔹 Fetch categories
+useEffect(() => {
+axios.get("http://localhost:8000/categories/getcategory") // ✅ fixed
+.then((res) => {
+setCategories(res.data.allcategory);
+})
+.catch((err) => console.log(err));
+}, []);
 
+// 🔥 Filter Logic (FIXED)
+const filteredItems = items.filter((item) => {
 
 const matchCategory =
-  category === "" || item.category === category;
+  selectedcategory === "All" ||
+  item.categoryId?.toString() === selectedcategory; // ✅ fix
 
-return matchSearch && matchCategory;
+const matchSearch =
+  item.title.toLowerCase().includes(search.toLowerCase()) ||
+  item.description.toLowerCase().includes(search.toLowerCase());
+
+return matchCategory && matchSearch;
 
 
 });
@@ -52,11 +63,11 @@ return matchSearch && matchCategory;
 return (
 <Box sx={{ p: 4, minHeight: "100vh", background: "#f4f6f8" }}>
 
-
   <Typography variant="h4" textAlign="center" mb={3} fontWeight="bold">
     Browse Items
   </Typography>
 
+ 
   <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
     <Button
       variant={type === "lost" ? "contained" : "outlined"}
@@ -73,7 +84,8 @@ return (
       Found
     </Button>
   </Box>
-  
+
+  {/* 🔹 Search + Category */}
   <Box
     sx={{
       display: "flex",
@@ -93,18 +105,21 @@ return (
     <TextField
       select
       label="Category"
-      value={category}
-      onChange={(e) => setCategory(e.target.value)}
+      value={selectedcategory}
+      onChange={(e) => setSelectedcategory(e.target.value)}
       sx={{ width: "200px" }}
     >
-      <MenuItem value="">All</MenuItem>
-      <MenuItem value="Bags">Bags</MenuItem>
-      <MenuItem value="Electronics">Electronics</MenuItem>
-      <MenuItem value="Pets">Pets</MenuItem>
+      <MenuItem value="All">All</MenuItem>
+
+      {categories.map((cat) => (
+        <MenuItem key={cat._id} value={cat._id}>
+          {cat.categoryname}
+        </MenuItem>
+      ))}
     </TextField>
   </Box>
 
-
+  {/* 🔹 Items */}
   <Grid container spacing={3}>
     {filteredItems.length > 0 ? (
       filteredItems.map((item) => (
@@ -136,11 +151,11 @@ return (
               </Typography>
 
               <Typography mt={1}>
-                 {item.location}
+                {item.location}
               </Typography>
 
               <Typography>
-                 {item.category}
+                {categories.find(cat => cat._id.toString() === item.categoryId?.toString())?.categoryname}
               </Typography>
             </CardContent>
 
@@ -160,3 +175,4 @@ return (
 
 );
 }
+

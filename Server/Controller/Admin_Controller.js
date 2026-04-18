@@ -1,5 +1,6 @@
 const admintable=require("../Model/Admin_Model")
 const usertable=require("../Model/User_model")
+const itemtable=require("../Model/Item_Model")
 
 const registeradmin=async(req,res)=>{
     try {
@@ -37,9 +38,10 @@ const loginadmin=async(req,res)=>{
 const dashboardata=async(req,res)=>{
     try {
         const totalusers=await usertable.countDocuments();
+        const totalitems=await itemtable.countDocuments();
         res.json({success:true,data:{
             users:totalusers,
-            items:totalusers,
+            items:totalitems,
             claims:totalusers,
             sales:totalusers,
         }
