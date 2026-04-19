@@ -1,77 +1,182 @@
-import React, { useEffect, useState } from "react";
+// import { Button, Card, CardActions, CardHeader, CardMedia, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+// import axios from 'axios';
+// import React, { useEffect, useState } from 'react'
+// import { useNavigate } from 'react-router-dom';
+
+// export default function VieIwtems() {
+//   const [items,setItems]=useState([]);
+//   const [category,setCategory]=useState([]);
+//   const [selectedCategory, setSelectedCategory] = useState("All");
+//   const navigate=useNavigate();
+//   const filtereditems=selectedCategory==="All"?items:items.filter((item)=>item.categoryId===selectedCategory)
+
+//   useEffect(()=>{
+//     axios.get('http://localhost:8000/items/all')
+//     .then((res)=>{
+//       console.log(res.data)
+//       setItems(res.data)
+//     })
+//     .catch((error)=>{
+//       console.log(error)
+//     })
+//   },[])
+//   useEffect(()=>{
+//     axios.get('http://localhost:8000/categories/getcategory')
+//     .then((res)=>{
+//       console.log("category:",res.data.allcategory)
+//       setCategory(res.data.allcategory)
+//     })
+//     .catch(()=>{
+//       console.log(error)
+//     })
+//   },[])
+//   return (
+//     <div style={{display:'flex',flexWrap:'wrap',gap:'20px'}}>
+//       <FormControl>
+//         <InputLabel>Category</InputLabel>
+//         <Select label="Category" 
+//       value={selectedCategory}
+//       onChange={(e)=>setSelectedCategory(e.target.value)}>
+//         <MenuItem value="All">All</MenuItem>
+//         {category.map((cat)=>(
+//           <MenuItem value={cat._id}>{cat.categoryname}</MenuItem>
+//         ))}
+//       </Select>
+//       </FormControl>
+//       {filtereditems.map((idata)=>(
+//         <Card sx={{ maxWidth: 345 }}>
+//           <CardMedia 
+//           component="img"
+//           height="194"
+//           image={`http://localhost:8000/uploads/${idata.image}`}
+//           alt={idata.title}/>
+//           <CardActions>
+//             {/* <Button variant='contained' fullWidth color='success' onClick={()=>navigate(`/BookingForm/${idata._id}`)}>Book now</Button> */}
+//             <Button>buy</Button>
+//           </CardActions>
+//         </Card>
+//       ))}
+      
+//     </div>
+//   )
+// }
+
 import {
 Box,
-Typography,
 Button,
-Grid,
 Card,
+CardActions,
 CardContent,
 CardMedia,
-TextField,
-MenuItem
+FormControl,
+InputLabel,
+MenuItem,
+Select,
+Typography,
+TextField
 } from "@mui/material";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function ViewItems() {
 
 const [items, setItems] = useState([]);
-const [type, setType] = useState("lost");
+const [category, setCategory] = useState([]);
+const [selectedCategory, setSelectedCategory] = useState("All");
 
-const [search, setSearch] = useState("");
-const [selectedcategory, setSelectedcategory] = useState("All");
-const [categories, setCategories] = useState([]);
+const [type, setType] = useState("All");   // 🔥 NEW
+const [search, setSearch] = useState("");  // 🔥 NEW
 
-// 🔹 Fetch items
-useEffect(() => {
-fetchItems();
-}, [type]);
+const navigate = useNavigate();
 
-const fetchItems = async () => {
-try {
-const res = await axios.get(`http://localhost:8000/items/${type}`);
-setItems(res.data);
-} catch (error) {
-console.log(error);
-}
-};
+// ✅ your existing category filter (unchanged)
+const filteredItems =
+selectedCategory === "All"
+? items
+: items.filter((item) => {
+const id =
+item.categoryId?._id || item.categoryId || item.category;
+return id?.toString() === selectedCategory.toString();
+});
 
-// 🔹 Fetch categories
-useEffect(() => {
-axios.get("http://localhost:8000/categories/getcategory") // ✅ fixed
-.then((res) => {
-setCategories(res.data.allcategory);
-})
-.catch((err) => console.log(err));
-}, []);
+// 🔥 ADDITIONAL FILTER (type + search)
+const finalItems = filteredItems.filter((item) => {
 
-// 🔥 Filter Logic (FIXED)
-const filteredItems = items.filter((item) => {
 
-const matchCategory =
-  selectedcategory === "All" ||
-  item.categoryId?.toString() === selectedcategory; // ✅ fix
+const matchType =
+  type === "All" || item.type === type;
 
 const matchSearch =
-  item.title.toLowerCase().includes(search.toLowerCase()) ||
-  item.description.toLowerCase().includes(search.toLowerCase());
+  item.title.toLowerCase().includes(search.toLowerCase());
 
-return matchCategory && matchSearch;
+return matchType && matchSearch;
 
 
 });
 
+// 🔹 Fetch items
+useEffect(() => {
+axios.get("http://localhost:8000/items/all")
+.then((res) => {
+setItems(res.data);
+})
+.catch((error) => {
+console.log(error);
+});
+}, []);
+
+// 🔹 Fetch categories
+useEffect(() => {
+axios.get("http://localhost:8000/categories/getcategory")
+.then((res) => {
+setCategory(res.data.allcategory);
+})
+.catch((error) => {
+console.log(error);
+});
+}, []);
+
 return (
 <Box sx={{ p: 4, minHeight: "100vh", background: "#f4f6f8" }}>
 
-  <Typography variant="h4" textAlign="center" mb={3} fontWeight="bold">
-    Browse Items
-  </Typography>
+  {/* 🔹 TOP CONTROLS */}
+  <Box sx={{ display: "flex", gap: 2, justifyContent: "center", mb: 4, flexWrap: "wrap" }}>
 
- 
-  <Box sx={{ display: "flex", justifyContent: "center", mb: 3 }}>
+    {/* Category */}
+    <FormControl sx={{ minWidth: 180 }}>
+      <InputLabel>Category</InputLabel>
+      <Select
+        label="Category"
+        value={selectedCategory}
+        onChange={(e) => setSelectedCategory(e.target.value)}
+      >
+        <MenuItem value="All">All</MenuItem>
+
+        {category.map((cat) => (
+          <MenuItem key={cat._id} value={cat._id}>
+            {cat.categoryname}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+
+    {/* 🔥 Search */}
+    <TextField
+      placeholder="Search items..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+    />
+
+    {/* 🔥 Type Buttons */}
+    <Button
+      variant={type === "All" ? "contained" : "outlined"}
+      onClick={() => setType("All")}
+    >
+      All
+    </Button>
     <Button
       variant={type === "lost" ? "contained" : "outlined"}
-      sx={{ mr: 2 }}
       onClick={() => setType("lost")}
     >
       Lost
@@ -83,96 +188,108 @@ return (
     >
       Found
     </Button>
-  </Box>
 
-  {/* 🔹 Search + Category */}
+    
+
+  </Box>
+<Box
+  sx={{
+    width:"100%",
+    mx: "auto",
+    mt: 3,
+    mb:4,
+    p: 2,
+    borderRadius: 2,
+    background: "#fef9c3",
+    borderLeft: "5px solid #facc15",
+    boxShadow: 1,
+  }}
+  
+>
+  <Typography
+    sx={{
+      fontSize: "14px",
+      color: "#92400e",
+      lineHeight: 1.6
+    }}
+  >
+    <strong>Please note:</strong> Only the image with the location found is available. 
+    If you think it’s yours, provide details like color, size, and what it contains 
+    so we can verify and help you claim your belongings.
+  </Typography>
+</Box>
+
+  {/* 🔹 Cards */}
   <Box
     sx={{
       display: "flex",
-      justifyContent: "center",
-      gap: 2,
-      mb: 4,
-      flexWrap: "wrap"
+      flexWrap: "wrap",
+      gap: 3,
+      justifyContent: "center"
     }}
   >
-    <TextField
-      placeholder="Search items..."
-      value={search}
-      onChange={(e) => setSearch(e.target.value)}
-      sx={{ width: "250px" }}
-    />
+    {finalItems.map((idata) => {
 
-    <TextField
-      select
-      label="Category"
-      value={selectedcategory}
-      onChange={(e) => setSelectedcategory(e.target.value)}
-      sx={{ width: "200px" }}
-    >
-      <MenuItem value="All">All</MenuItem>
+      const categoryName = category.find(
+        (cat) =>
+          cat._id.toString() ===
+          (idata.categoryId?._id || idata.categoryId)?.toString()
+      )?.categoryname;
 
-      {categories.map((cat) => (
-        <MenuItem key={cat._id} value={cat._id}>
-          {cat.categoryname}
-        </MenuItem>
-      ))}
-    </TextField>
+      return (
+        <Card
+          key={idata._id}
+          sx={{
+            width: 300,
+            borderRadius: 3,
+            boxShadow: 3,
+            transition: "0.3s",
+            "&:hover": {
+              transform: "scale(1.04)"
+            }
+          }}
+        >
+          <CardMedia
+            component="img"
+            height="200"
+            image={
+              idata.image
+                ? `http://localhost:8000/uploads/${idata.image}`
+                : "https://via.placeholder.com/300"
+            }
+          />
+
+          <CardContent>
+            <Typography variant="h6" fontWeight="bold" noWrap>
+              {idata.title}
+            </Typography>
+
+            <Typography variant="body2">
+              {idata.location}
+            </Typography>
+
+            {/* <Typography variant="body2">
+              {categoryName || "Unknown"}
+            </Typography> */}
+          </CardContent>
+
+          <CardActions>
+            <Button
+              fullWidth
+              variant="contained"
+              color="success"
+              onClick={() => navigate(`/item/${idata._id}`)}
+            >
+              View
+            </Button>
+          </CardActions>
+        </Card>
+      );
+    })}
   </Box>
-
-  {/* 🔹 Items */}
-  <Grid container spacing={3}>
-    {filteredItems.length > 0 ? (
-      filteredItems.map((item) => (
-        <Grid item xs={12} sm={6} md={4} key={item._id}>
-
-          <Card
-            sx={{
-              borderRadius: "15px",
-              boxShadow: 4,
-              transition: "0.3s",
-              "&:hover": {
-                transform: "scale(1.03)"
-              }
-            }}
-          >
-            <CardMedia
-              component="img"
-              height="200"
-              image={`http://localhost:8000/uploads/${item.image}`}
-            />
-
-            <CardContent>
-              <Typography variant="h6" fontWeight="bold">
-                {item.title}
-              </Typography>
-
-              <Typography variant="body2" color="text.secondary">
-                {item.description}
-              </Typography>
-
-              <Typography mt={1}>
-                {item.location}
-              </Typography>
-
-              <Typography>
-                {categories.find(cat => cat._id.toString() === item.categoryId?.toString())?.categoryname}
-              </Typography>
-            </CardContent>
-
-          </Card>
-
-        </Grid>
-      ))
-    ) : (
-      <Typography textAlign="center" width="100%">
-        No matching items found
-      </Typography>
-    )}
-  </Grid>
 
 </Box>
 
 
 );
 }
-

@@ -37,7 +37,7 @@ export default function ViewCategory() {
      fontWeight="bold"
      textAlign="center"
    >
-      Booking Management </Typography>
+      Category Maanagement</Typography>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <TableContainer sx={{ width: "90%", background: "white", borderRadius: 2, boxShadow: 3 }}>
         <Table>

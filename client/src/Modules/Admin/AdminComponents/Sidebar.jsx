@@ -28,7 +28,7 @@ const menuItems = [
 { text: "Dashboard",link:"/Admin",icon: <DashboardIcon /> ,},
 { text: "Users",link: "/Admin/ViewUser", icon: <PeopleIcon /> },
 { text: "Add Category",link: "/Admin/AddCategory", icon: <AddCircleOutlineIcon/> },
-{ text: "Users",link: "/Admin/ViewUser", icon: <CategoryIcon /> },
+{ text: "Category",link: "/Admin/ViewCategory", icon: <CategoryIcon /> },
 // { text: "Items", icon: <InventoryIcon /> },
 // { text: "Claims", icon: <AssignmentIcon /> },
 // { text: "Payments", icon: <PaymentIcon /> },

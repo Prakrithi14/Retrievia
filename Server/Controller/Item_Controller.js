@@ -43,6 +43,18 @@ catch (error) {
 }
 };
 
+ const getitembyid=async(req,res)=>{
+    try {
+       const pid=req.params.id
+       const itembyid=await Item.findById(pid)
+       console.log(itembyid)
+       res.status(200).json({message:"product fetched by id",itembyid:itembyid})
+        
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:"server error",error})
+    }
+ }
 
 const getLostItems = async (req, res) => {
 try {
@@ -71,4 +83,4 @@ res.status(500).json({ success: false });
 
 
 
-module.exports = { addItem,getAllItems,getLostItems,getFoundItems };
+module.exports = { addItem,getAllItems,getLostItems,getFoundItems,getitembyid };

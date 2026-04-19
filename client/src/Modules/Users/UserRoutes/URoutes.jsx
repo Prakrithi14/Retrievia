@@ -7,6 +7,7 @@ import ManageProfile from "../UserComponents/ManageProfile";
 import PostFoundItem from "../UserComponents/PostFoundItem";
 import PostLostItem from "../UserComponents/PostLostItem";
 import ViewItems from "../UserComponents/VieIwtems";
+import ItemDetails from "../UserComponents/ItemDetails";
 
 
 export default function URoutes() {
@@ -20,6 +21,7 @@ export default function URoutes() {
       <Route path="/PostFoundItem" element={<PostFoundItem />} />
       <Route path="/PostLostItem" element={<PostLostItem />} />
       <Route path="/ViewItems" element={<ViewItems />} />
+      <Route path="/item/:id" element={<ItemDetails />} />
       <Route path="/" element={<Register />} />
     </Routes>
     </div>
