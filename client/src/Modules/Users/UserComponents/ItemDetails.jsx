@@ -1,92 +1,65 @@
-import React, { useEffect, useState } from "react";
-import {
-Box,
-Typography,
-Card,
-CardMedia,
-Button
-} from "@mui/material";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import {useNavigate, useParams} from 'react-router-dom'
+import axios from 'axios'
 export default function ItemDetails() {
-
-const { id } = useParams();
-const [item, setItem] = useState(null);
-
-useEffect(() => {
-axios.get(`http://localhost:8000/items/item/${id}`)
-.then((res) => {
-setItem(res.data);
-})
-.catch((err) => console.log(err));
-}, [id]);
-
-if (!item) return <Typography textAlign="center">Loading...</Typography>;
-
-return (
-<Box
-sx={{
-minHeight: "100vh",
-display: "flex",
-justifyContent: "center",
-alignItems: "center",
-background: "#f4f6f8",
-p: 3
-}}
->
-
-
-  <Card
-    sx={{
-      maxWidth: 500,
-      width: "100%",
+  const {id}=useParams()
+  const navigate=useNavigate()
+  const [item,setItem]=useState([])
+  console.log(id)
+  useEffect(()=>{
+    axios.get(`http://localhost:8000/items/item/${id}`)
+    .then((res)=>{
+      console.log(res.data.itembyid)
+      setItem(res.data.itembyid)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  },[])
+  return (
+    <div>
+      <Box
+       sx={{
+    minHeight: '100vh',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    pt: 5,
+    px: 2,
+    backgroundColor: '#f5f5f5'
+  }}>
+        <Card
+        sx={{
+      width: '100%',
+      maxWidth: 700,
       borderRadius: 3,
-      boxShadow: 4,
-      p: 2
-    }}
-  >
+      boxShadow: 5,
+      overflow: 'hidden'
+    }}>
+          <CardMedia 
+          component="img"
+          image={`http://localhost:8000/uploads/${item.image}`} 
+          alt={item.title}/>
+            <CardContent>
+                <Typography  mb={1}>
+                  📍  Location: {item.location}
+                 </Typography>
 
-    {/* Image */}
-    <CardMedia
-      component="img"
-      height="300"
-      image={`http://localhost:8000/uploads/${item.image}`}
-    />
-
-    {/* Details */}
-    <Box sx={{ mt: 2 }}>
-
-      <Typography variant="h5" fontWeight="bold" mb={1}>
-        {item.title}
-      </Typography>
-
-      <Typography variant="body1" mb={1}>
-        📍 Location: {item.location}
-      </Typography>
-
-      <Typography variant="body1" mb={1}>
-        🏷 Type: {item.type}
-      </Typography>
-
-      {/* ❌ Description hidden intentionally */}
-
-    </Box>
-
-    {/* Action */}
-    <Button
-      fullWidth
-      variant="contained"
-      color="primary"
-      sx={{ mt: 2 }}
-    >
-      Claim This Item
-    </Button>
-
-  </Card>
-
-</Box>
-
-
-);
+                 <Typography  mb={1}>
+                     🏷 Type: {item.type}
+                  </Typography>
+                 <Typography  mb={1}>
+                     🏷 Updated Date: {item.createdAt}
+                  </Typography>
+                 
+            </CardContent>
+            <CardActions>
+              <Button variant='contained' color='success' fullWidth onClick={() => navigate(`/claim/${item._id}`)}>Claim Item</Button>
+            </CardActions>
+        
+        </Card>
+      </Box>
+    </div>
+  )
 }

@@ -67,6 +67,46 @@ const updateuser=async(req,res)=>{
         
     }
 }
+const jwt = require("jsonwebtoken");
+
+
+const loginUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    console.log("LOGIN BODY:", req.body); // debug
+
+    // 🔹 check if user exists
+    const user = await usertable.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    // 🔹 check password
+    if (user.password !== password) {
+      return res.status(401).json({ message: "Invalid password" });
+    }
+
+    // 🔹 generate token
+    const token = jwt.sign(
+      { id: user._id },
+      "claims",
+      { expiresIn: "1d" }
+    );
+
+    res.status(200).json({
+      message: "Login successful",
+      token
+    });
+
+  } catch (error) {
+    console.log("LOGIN ERROR:", error); // 🔥 VERY IMPORTANT
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
 // const getprofile=async(req,res)=>{
 //     try {
 //         const {id}=req.params
@@ -80,4 +120,4 @@ const updateuser=async(req,res)=>{
         
 //     }
 // }
-module.exports={registeruser,userlogin,getuser,deleteuser,updateuser}
+module.exports={registeruser,getuser,deleteuser,updateuser,loginUser}
