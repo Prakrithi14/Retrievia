@@ -17,11 +17,11 @@ const itemschema = new mongoose.Schema({
     ref: 'users' 
   },
 
-  status: { 
-    type: String, 
-    default: "pending"   
-  }
-
+ status: {
+  type: String,
+  enum: ["pending", "claimed"],
+  default: "pending"
+}
 }, { timestamps: true });
 
 module.exports = mongoose.model('items', itemschema);

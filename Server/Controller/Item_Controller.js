@@ -89,6 +89,7 @@ const Item = require("../Model/Item_Model");
 
 // 🔹 Add Item
 const addItem = async (req, res) => {
+  console.log("REQ.USER:", req.user);
   try {
     const { title, description, category, location, type } = req.body;
 

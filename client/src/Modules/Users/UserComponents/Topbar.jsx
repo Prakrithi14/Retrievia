@@ -59,19 +59,7 @@ export default function Topbar() {
   }}
 />
 <SearchIcon sx={{ color: "white",mr:0.1}}/>
-<AccountCircleIcon
-  sx={{
-    color: "white",
-    ml: 120,
-    cursor: "pointer",
-    transition: "0.3s",
-    "&:hover": {
-      transform: "scale(1.2)",
-      color: "#ffd700",
-      
-    }
-  }}
-/>
+
 
             </Box>
         </Toolbar>

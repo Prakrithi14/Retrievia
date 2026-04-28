@@ -33,7 +33,16 @@ data.append("image", formData.image);
 data.append("type", "lost");
 
 try {
-  await axios.post("http://localhost:8000/items/add", data);
+  // await axios.post("http://localhost:8000/items/add", data);
+  await axios.post(
+    "http://localhost:8000/items/add",
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    }
+  );
   alert("Lost item posted successfully");
 } catch (error) {
   console.log(error);

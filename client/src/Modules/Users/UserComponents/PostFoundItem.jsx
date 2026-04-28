@@ -38,9 +38,18 @@ data.append("category", formData.category);
 data.append("location", formData.location);
 data.append("image", formData.image);
 data.append("type", "found");
-
+console.log("TOKEN:", localStorage.getItem("token"));
 try {
-  await axios.post("http://localhost:8000/items/add", data);
+  // await axios.post("http://localhost:8000/items/add", data);
+  await axios.post(
+  "http://localhost:8000/items/add",
+  data,
+  {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`
+    }
+  }
+);
   alert("Found item posted successfully");
 } catch (error) {
   console.log(error);

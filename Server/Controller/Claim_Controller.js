@@ -51,6 +51,93 @@ res.status(500).json({ message: "Server error" });
 }
 };
 
+const getAllClaims=async(req,res)=>{
+  try {
+    const claims=await Claim.find()
+     .populate("itemId")
+      .populate("claimantId", "name email")
+      // .populate("ownerId", "name email");
+      res.json(claims)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({message:"Error fetching claims"})
+
+  }
+}
+
+// const updateClaimStatus = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const { status } = req.body;
+
+//     const updated = await Claim.findByIdAndUpdate(
+//       id,
+//       { status },
+//       { new: true }
+//     );
+
+//     res.json({
+//       message: "Status updated",
+//       claim: updated
+//     });
+
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: "Error updating status" });
+//   }
+// };
+
+const getMyClaims = async (req, res) => {
+  try {
+    // 🔥 get user from token (auth middleware)
+    const userId = req.user.id;
+
+    // 🔹 fetch only this user's claims
+    const claims = await Claim.find({ claimantId: userId })
+      .populate("itemId")     // get item details
+      .sort({ createdAt: -1 }); // latest first
+
+    res.status(200).json(claims);
+
+  } catch (error) {
+    console.log("GET MY CLAIMS ERROR:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error fetching user claims"
+    });
+  }
+};
+const updateClaimStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    // 🔹 update claim status
+    const claim = await Claim.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+
+    // 🔥 if approved → mark item as claimed
+    if (status === "Approved") {
+      await Item.findByIdAndUpdate(claim.itemId, {
+        status: "claimed"
+      });
+    }
+
+    res.json({
+      message: "Claim status updated",
+      claim
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+module.exports = { updateClaimStatus };
 module.exports = {
-createClaim
+createClaim,getAllClaims,updateClaimStatus,getMyClaims
 };

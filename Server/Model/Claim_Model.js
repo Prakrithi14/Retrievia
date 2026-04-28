@@ -9,11 +9,11 @@ required: true
 },
 
 
-ownerId: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: "users",
-  required: true
-},
+// ownerId: {
+//   type: mongoose.Schema.Types.ObjectId,
+//   ref: "users",
+//   required: true
+// },
 
 claimantId: {
   type: mongoose.Schema.Types.ObjectId,

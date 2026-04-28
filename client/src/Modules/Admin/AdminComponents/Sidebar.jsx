@@ -30,7 +30,7 @@ const menuItems = [
 { text: "Add Category",link: "/Admin/AddCategory", icon: <AddCircleOutlineIcon/> },
 { text: "Category",link: "/Admin/ViewCategory", icon: <CategoryIcon /> },
 // { text: "Items", icon: <InventoryIcon /> },
-// { text: "Claims", icon: <AssignmentIcon /> },
+ { text: " Manage Claims",link:"/Admin/ManageClaims", icon: <AssignmentIcon /> },
 // { text: "Payments", icon: <PaymentIcon /> },
 //   { text: "Feedback", icon: <FeedbackIcon /> }
   ];

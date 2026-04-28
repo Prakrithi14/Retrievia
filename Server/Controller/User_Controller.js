@@ -120,4 +120,7 @@ const loginUser = async (req, res) => {
         
 //     }
 // }
-module.exports={registeruser,getuser,deleteuser,updateuser,loginUser}
+const getMe = async (req, res) => {
+  res.json(req.user);
+};
+module.exports={registeruser,getuser,deleteuser,updateuser,loginUser,getMe}
