@@ -189,11 +189,62 @@ const getFoundItems = async (req, res) => {
   }
 };
 
+const getExpiredItems = async (req, res) => {
+  try {
+   
+    const days = 7;
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() - days);
 
+    // 🔹 find items older than 7 days AND not claimed
+  const expiredItems = await Item.find({
+  createdAt: { $lte: expiryDate },
+  status: { $nin: ["claimed", "sale", "adoption"] }, // exclude processed
+  type: "found" // only found items
+}).sort({ createdAt: -1 });
+
+res.status(200).json(expiredItems);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Error fetching expired items"
+    });
+  }
+};
+const moveToSale = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const item = await Item.findById(id);
+
+    if (!item) {
+      return res.status(404).json({
+        message: "Item not found"
+      });
+    }
+
+    // 🔹 update status
+    item.status = "sale";
+
+    await item.save();
+
+    res.status(200).json({
+      message: "Item moved to sale successfully",
+      item
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Error moving item to sale"
+    });
+  }
+};
 module.exports = {
   addItem,
   getAllItems,
   getLostItems,
   getFoundItems,
-  getitembyid
+  getitembyid,
+  getExpiredItems,moveToSale
 };

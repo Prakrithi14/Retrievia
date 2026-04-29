@@ -7,6 +7,7 @@ import ViewUser from '../AdminComponents/ViewUser'
 import AddCategory from '../AdminComponents/AddCategory'
 import ViewCategory from '../AdminComponents/ViewCategory'
 import ManageClaims from '../AdminComponents/ManageClaims'
+import ManageExpiredItems from '../AdminComponents/ManageExpiredItems'
 export default function ARoutes() {
   return (
     <div>
@@ -17,6 +18,7 @@ export default function ARoutes() {
         <Route path='/AddCategory' element={<AddCategory/>} />
         <Route path='/ManageClaims' element={<ManageClaims/>} />
         <Route path='/ViewCategory' element={<ViewCategory/>} />
+        <Route path='/ManageExpiredItems' element={<ManageExpiredItems/>} />
         <Route path='/' element={<AdminDashboard/>} />
       
       </Routes>

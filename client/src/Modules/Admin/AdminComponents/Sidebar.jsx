@@ -31,6 +31,7 @@ const menuItems = [
 { text: "Category",link: "/Admin/ViewCategory", icon: <CategoryIcon /> },
 // { text: "Items", icon: <InventoryIcon /> },
  { text: " Manage Claims",link:"/Admin/ManageClaims", icon: <AssignmentIcon /> },
+ { text: " Manage Expired Items",link:"/Admin/ManageExpiredItems", icon: <AssignmentIcon /> },
 // { text: "Payments", icon: <PaymentIcon /> },
 //   { text: "Feedback", icon: <FeedbackIcon /> }
   ];

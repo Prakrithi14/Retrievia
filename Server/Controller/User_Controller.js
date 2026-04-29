@@ -121,6 +121,14 @@ const loginUser = async (req, res) => {
 //     }
 // }
 const getMe = async (req, res) => {
-  res.json(req.user);
+     try {
+        const user=await usertable.findById(req.userid)
+        res.json({success:true,udata:user})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({message:'Server error',error})
+        
+    }
+
 };
 module.exports={registeruser,getuser,deleteuser,updateuser,loginUser,getMe}
