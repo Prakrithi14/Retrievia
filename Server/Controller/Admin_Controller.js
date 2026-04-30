@@ -2,6 +2,8 @@ const admintable=require("../Model/Admin_Model")
 const usertable=require("../Model/User_model")
 const itemtable=require("../Model/Item_Model")
 const claimtable=require("../Model/Claim_Model")
+const jwt=require('jsonwebtoken')
+
 
 const registeradmin=async(req,res)=>{
     try {
@@ -22,17 +24,27 @@ const registeradmin=async(req,res)=>{
 }
 
 const loginadmin=async(req,res)=>{
-    const {email,password}=req.body;
     try {
-        const admin=await admintable.findOne({email})
-        if(!admin){
-            res.json({success:false,message:"Invalid Credentials.Check your email and password"})
-        } else {
-            res.json({success:true,message:"Login Successful",user:admin})
+        const {email,password}=req.body
+        const userlogin=await admintable.findOne({
+            email,password
+        })
+        if(!userlogin){
+            res.json({
+                success:false,
+                message:"user not found"
+            })
+        }
+        else{
+            const token=await jwt.sign(userlogin.id,SECRET_KEY)
+            res.json({
+                success:true,
+                message:"Login Successful!!",token}
+            )
         }
     } catch (error) {
         console.log(error)
-        res.status(500).json({message:"Server Error",error})
+        res.status(500).json({message:"Server error",error})
     }
 }
 

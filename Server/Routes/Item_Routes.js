@@ -10,5 +10,5 @@ router.get("/lost", getLostItems);
 router.get("/found", getFoundItems);
 router.get("/item/:id", getitembyid);
 router.get("/expired", getExpiredItems);
-router.put("/move-to-sale/:id", moveToSale);
+router.put("/moveTosale/:id", moveToSale);
 module.exports = router;

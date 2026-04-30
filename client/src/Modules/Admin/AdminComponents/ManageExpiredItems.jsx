@@ -40,7 +40,7 @@ export default function ManageExpiredItems() {
   const handleMoveToSale = async (id) => {
     try {
       await axios.put(
-        `http://localhost:8000/items/move-to-sale/${id}`
+        `http://localhost:8000/items/moveTosale/${id}`
       );
 
       alert("Item moved to sale");

@@ -25,9 +25,9 @@ const handleChange=(event)=>{
         .then((res)=>{
             console.log(res)
             if(res.data.success){
-            //localStorage.setItem('UserToken',res.data.token)
+            localStorage.setItem('UserToken',res.data.token)
             alert("Login successful")
-            //navigate('/about')
+            navigate('/Admin')
             }
             else{
                 alert("Login Unsuccessful")
