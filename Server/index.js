@@ -19,4 +19,5 @@ app.use('/admins',require('./Routes/Admin_Routes'))
 app.use("/items", require('./Routes/Item_Routes'))
 app.use("/categories",require('./Routes/Category_Routes'))
 app.use("/claims",require('./Routes/Claim_Routes'))
+app.use("/feedback",require('./Routes/Feedback_Routes'))
 app.use("/uploads", express.static("uploads"));

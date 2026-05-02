@@ -9,6 +9,8 @@ import PostLostItem from "../UserComponents/PostLostItem";
 import ViewItems from "../UserComponents/VieIwtems";
 import ItemDetails from "../UserComponents/ItemDetails";
 import ClaimItem from "../UserComponents/ClaimItem";
+import WriteFeedback from "../UserComponents/WriteFeedback";
+import MyProfile from "../UserComponents/MyProfile";
 
 
 export default function URoutes() {
@@ -18,12 +20,13 @@ export default function URoutes() {
     <Routes>
       <Route path="/Home" element={<Home />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/ManageProfile" element={<ManageProfile />} />
+      <Route path="/MyProfile" element={<MyProfile />} />
       <Route path="/PostFoundItem" element={<PostFoundItem />} />
       <Route path="/PostLostItem" element={<PostLostItem />} />
       <Route path="/ViewItems" element={<ViewItems />} />
       <Route path="/item/:id" element={<ItemDetails />} />
       <Route path="/claim/:id" element={<ClaimItem />} />
+      <Route path="/WriteFeedback" element={<WriteFeedback />} />
       <Route path="/" element={<Register />} />
     </Routes>
     </div>

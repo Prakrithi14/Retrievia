@@ -121,7 +121,7 @@ const loginUser = async (req, res) => {
 //     }
 // }
 const getMe = async (req, res) => {
-     try {
+  try {
         const user=await usertable.findById(req.userid)
         res.json({success:true,udata:user})
     } catch (error) {
@@ -129,6 +129,5 @@ const getMe = async (req, res) => {
         res.status(500).json({message:'Server error',error})
         
     }
-
 };
 module.exports={registeruser,getuser,deleteuser,updateuser,loginUser,getMe}

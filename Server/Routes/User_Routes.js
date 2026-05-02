@@ -5,7 +5,7 @@ const route=express.Router();
 route.post("/registeruser",registeruser)
 route.post("/loginUser",loginUser)
 route.get("/getuser",getuser)
-route.get("/me",getMe)
+route.get("/getMe",getMe)
 route.delete("/deleteuser/:id",deleteuser)
 route.put("/updateuser/:id",updateuser)
 

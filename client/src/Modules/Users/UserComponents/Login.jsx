@@ -30,12 +30,9 @@ export default function Login() {
         "http://localhost:8000/users/loginUser",
         login
       );
-
       console.log("LOGIN RESPONSE:", res.data);
-
-      // ✅ check token (not success)
       if (res.data.token) {
-        // ✅ store token properly
+      
         localStorage.setItem("token", res.data.token);
 
         alert("Login successful");
