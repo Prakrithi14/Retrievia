@@ -18,7 +18,9 @@ export default function Home() {
     { title: "Report Lost", desc: "Lost something? Report it here",link:'/PostLostItem'},
     { title: "Found Item", desc: "Help return lost items",link:'/PostFoundItem'},
     { title: "Browse Items", desc: "Search lost & found items",link:'/ViewItems'},
-    { title: "Sale / Adoption", desc: "Unclaimed items available" }
+    { title: "Buy Expired Item", desc: "Add your feedback",link:'/SaleItems'},
+    { title: "Add feedback", desc: "Add your feedback",link:'/WriteFeedback'},
+
   ];
  
   const categories = ["Bags", "Electronics", "Pets", "Documents", "Others"];

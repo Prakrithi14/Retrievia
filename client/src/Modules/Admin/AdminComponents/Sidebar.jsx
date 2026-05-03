@@ -19,6 +19,7 @@ import PaymentIcon from "@mui/icons-material/Payment";
 import FeedbackIcon from "@mui/icons-material/Feedback";
 import CategoryIcon from '@mui/icons-material/Category';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+
 import { Link } from "react-router-dom";
 
 export default function Sidebar() {
@@ -32,6 +33,7 @@ const menuItems = [
 // { text: "Items", icon: <InventoryIcon /> },
  { text: " Manage Claims",link:"/Admin/ManageClaims", icon: <AssignmentIcon /> },
  { text: " Manage Expired Items",link:"/Admin/ManageExpiredItems", icon: <AssignmentIcon /> },
+ { text: " View Feedback",link:"/Admin/ViewFeedback", icon: <FeedbackIcon /> },
 // { text: "Payments", icon: <PaymentIcon /> },
 //   { text: "Feedback", icon: <FeedbackIcon /> }
   ];

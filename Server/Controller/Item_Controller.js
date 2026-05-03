@@ -357,16 +357,38 @@ const getFoundItems = async (req, res) => {
 
 
 // 🔹 Get Expired Items (Already correct 👍)
+// const getExpiredItems = async (req, res) => {
+//   try {
+//     const days = 7;
+//     const expiryDate = new Date();
+//     expiryDate.setDate(expiryDate.getDate() - days);
+
+//     const expiredItems = await Item.find({
+//       createdAt: { $lte: expiryDate },
+//       status: { $nin: ["claimed", "sale", "adoption"] },
+//       type: "found"
+//     }).sort({ createdAt: -1 });
+
+//     res.status(200).json(expiredItems);
+
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({
+//       message: "Error fetching expired items"
+//     });
+//   }
+// };
+
 const getExpiredItems = async (req, res) => {
   try {
-    const days = 7;
+    const days = 4;
     const expiryDate = new Date();
     expiryDate.setDate(expiryDate.getDate() - days);
 
     const expiredItems = await Item.find({
       createdAt: { $lte: expiryDate },
-      status: { $nin: ["claimed", "sale", "adoption"] },
-      type: "found"
+      type: "found",
+      status: { $nin: ["claimed", "sale", "adoption", "sold"] } // 🔥 FIXED
     }).sort({ createdAt: -1 });
 
     res.status(200).json(expiredItems);
@@ -378,14 +400,59 @@ const getExpiredItems = async (req, res) => {
     });
   }
 };
-
-
 // 🔹 Move To Sale (KEEPING SIMPLE AS YOU HAD)
+// const moveToSale = async (req, res) => {
+//   try {
+//     const { id } = req.params;
+
+//     const item = await Item.findById(id);
+
+//     if (!item) {
+//       return res.status(404).json({
+//         message: "Item not found"
+//       });
+//     }
+
+//     // 🔴 optional safety (doesn't break your logic)
+//     if (item.type !== "found") {
+//       return res.status(400).json({
+//         message: "Only found items allowed"
+//       });
+//     }
+
+//     item.status = "sale"; // keeping your original behavior
+
+//     await item.save();
+
+//     res.status(200).json({
+//       message: "Item moved to sale successfully",
+//       item
+//     });
+
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({
+//       message: "Error moving item to sale"
+//     });
+//   }
+// };
+
 const moveToSale = async (req, res) => {
   try {
     const { id } = req.params;
 
+    console.log("ID RECEIVED:", id); // 🔍 debug
+
+    // 🔥 validate id
+    if (!id) {
+      return res.status(400).json({
+        message: "Invalid ID"
+      });
+    }
+
     const item = await Item.findById(id);
+
+    console.log("ITEM FOUND:", item); // 🔍 debug
 
     if (!item) {
       return res.status(404).json({
@@ -393,14 +460,13 @@ const moveToSale = async (req, res) => {
       });
     }
 
-    // 🔴 optional safety (doesn't break your logic)
     if (item.type !== "found") {
       return res.status(400).json({
         message: "Only found items allowed"
       });
     }
 
-    item.status = "sale"; // keeping your original behavior
+    item.status = "sale";
 
     await item.save();
 
@@ -410,14 +476,59 @@ const moveToSale = async (req, res) => {
     });
 
   } catch (error) {
-    console.log(error);
+    console.log("ERROR IN moveToSale:", error); // 🔥 IMPORTANT
     res.status(500).json({
-      message: "Error moving item to sale"
+      message: "Error moving item to sale",
+      error: error.message
     });
   }
 };
 
+const getSaleItems = async (req, res) => {
+  try {
+    const items = await Item.find({
+      status: { $in: ["sale", "adoption"] }
+    }).sort({ createdAt: -1 });
 
+    res.status(200).json(items);
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Error fetching sale items"
+    });
+  }
+};
+const buyOrAdoptItem = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const item = await Item.findById(id);
+
+    if (!item) {
+      return res.status(404).json({ message: "Item not found" });
+    }
+
+    if (!["sale", "adoption"].includes(item.status)) {
+      return res.status(400).json({
+        message: "Item not available"
+      });
+    }
+
+    item.status = item.status === "sale" ? "sold" : "adopted";
+
+    await item.save();
+
+    res.json({
+      message: "Success",
+      item
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 module.exports = {
   addItem,
   getAllItems,
@@ -425,5 +536,7 @@ module.exports = {
   getFoundItems,
   getitembyid,
   getExpiredItems,
-  moveToSale
+  moveToSale,
+  getSaleItems,
+  buyOrAdoptItem
 };

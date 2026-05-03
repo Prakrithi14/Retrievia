@@ -1,5 +1,5 @@
 const usertable=require('../Model/User_model')
-
+const jwt = require("jsonwebtoken");
 const registeruser=async(req,res)=>{
     try {
         const {name,email,phone,password}=req.body;
@@ -54,20 +54,20 @@ const deleteuser=async(req,res)=>{
         res.status(500).json({message:"Server error",error})
     }
 }
-const updateuser=async(req,res)=>{
-    try {
-        const {id}=req.params
-        const body=req.body
-        const updateduser=await usertable.findByIdAndUpdate(id,body,{new:true})
-        console.log(updateduser)
-        res.status(201).json({message:"User updated",updatedata:updateduser})
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({message:"Server error",error})
+// const updateuser=async(req,res)=>{
+//     try {
+//         const {id}=req.params
+//         const body=req.body
+//         const updateduser=await usertable.findByIdAndUpdate(id,body,{new:true})
+//         console.log(updateduser)
+//         res.status(201).json({message:"User updated",updatedata:updateduser})
+//     } catch (error) {
+//         console.log(error)
+//         res.status(500).json({message:"Server error",error})
         
-    }
-}
-const jwt = require("jsonwebtoken");
+//     }
+// }
+
 
 
 const loginUser = async (req, res) => {
@@ -122,12 +122,25 @@ const loginUser = async (req, res) => {
 // }
 const getMe = async (req, res) => {
   try {
-        const user=await usertable.findById(req.userid)
-        res.json({success:true,udata:user})
+    const user = await usertable.findById(req.user.id); // ✅ FIXED
+
+    res.json({
+      success: true,
+      udata: user
+    });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Server error', error });
+  }
+};
+const updateuser=async(req,res)=>{
+    try {
+        const updatedprofile=await usertable.findByIdAndUpdate(req.user.id,req.body,{new:true})
+        res.json({message:"Profile updated",success:true,udetails:updatedprofile})
     } catch (error) {
         console.log(error)
-        res.status(500).json({message:'Server error',error})
-        
+        res.status(500).json({message:'server error',error})
     }
-};
+}
 module.exports={registeruser,getuser,deleteuser,updateuser,loginUser,getMe}

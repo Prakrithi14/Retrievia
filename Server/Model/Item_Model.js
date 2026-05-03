@@ -17,10 +17,24 @@ const itemschema = new mongoose.Schema({
     ref: 'users' 
   },
 
- status: {
+//  status: {
+//   type: String,
+//   enum: ["pending", "claimed"],
+//   default: "pending"
+// }
+status: {
   type: String,
-  enum: ["pending", "claimed"],
-  default: "pending"
+  enum: [
+    "Pending",
+    "Approved",
+    "Rejected",
+    "Completed",
+    "claimed",
+    "sale",
+    "adoption",
+    "sold"
+  ],
+  default: "Pending"
 }
 }, { timestamps: true });
 

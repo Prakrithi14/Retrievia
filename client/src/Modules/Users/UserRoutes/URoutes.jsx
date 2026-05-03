@@ -11,6 +11,7 @@ import ItemDetails from "../UserComponents/ItemDetails";
 import ClaimItem from "../UserComponents/ClaimItem";
 import WriteFeedback from "../UserComponents/WriteFeedback";
 import MyProfile from "../UserComponents/MyProfile";
+import SaleItems from "../UserComponents/SaleItems";
 
 
 export default function URoutes() {
@@ -27,6 +28,7 @@ export default function URoutes() {
       <Route path="/item/:id" element={<ItemDetails />} />
       <Route path="/claim/:id" element={<ClaimItem />} />
       <Route path="/WriteFeedback" element={<WriteFeedback />} />
+      <Route path="/SaleItems" element={<SaleItems />} />
       <Route path="/" element={<Register />} />
     </Routes>
     </div>
