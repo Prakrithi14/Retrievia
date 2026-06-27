@@ -58,7 +58,7 @@ Retrievia is a MERN Stack web application designed to simplify the process of re
 ### Clone Repository
 
 ```bash
-git clone [https://github.com/your-username/retrievia.git](https://github.com/Prakrithi14/Retrievia.git)
+git clone https://github.com/Prakrithi14/Retrievia.git
 ```
 
 ### Frontend
